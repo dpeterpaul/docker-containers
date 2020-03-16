@@ -1,7 +1,7 @@
 FROM phusion/baseimage:0.11
-LABEL MAINTAINER daniel@peterpaul.io
+LABEL MAINTAINER dpeterpaul
 
-#Dockerfile based on Dockerfiles of smdion and Capt.Insano
+#Dockerfile based on Dockerfiles of smdion
 
 # Set correct environment variables
 ENV HOME /root
@@ -23,7 +23,7 @@ ADD FAHClient-run.sh /root/FAHClient-run.sh
 # Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
-# Configure user nobody
+# Configure user nobody to match unRAID's settings
 RUN \
 usermod -u 99 nobody && \
 usermod -g 100 nobody && \
@@ -31,14 +31,14 @@ usermod -d /home nobody && \
 chown -R nobody:users /home && \
 apt-get update -q && \
 apt-get install -qy wget && \
-apt-get clean -y && \
 apt-get install -y ocl-icd-opencl-dev && \
 apt-get install -y nvidia-opencl-dev && \
+apt-get clean -y && \
 rm -rf /var/lib/apt/lists/* && \
-wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/fahclient_7.5.1_amd64.deb && \
+wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb && \
 mkdir -p /opt/fah && \
-dpkg -x /tmp/fahclient_7.5.1_amd64.deb /opt/fah  && \
-rm /tmp/fahclient_7.5.1_amd64.deb && \
+dpkg -x /tmp/latest.deb /opt/fah  && \
+rm /tmp/latest.deb && \
 chown -R nobody:users /opt/fah && \
 apt-get purge --remove wget -y && \
 apt-get autoremove -y && \
