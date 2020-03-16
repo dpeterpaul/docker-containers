@@ -1,7 +1,7 @@
 FROM phusion/baseimage:0.11
 MAINTAINER daniel@peterpaul.io
 
-#Dockerfile based on Dockerfiles of smdion
+#Dockerfile based on Dockerfiles of smdion and Capt.Insano
 
 # Set correct environment variables
 ENV HOME /root
