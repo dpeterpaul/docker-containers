@@ -1,7 +1,7 @@
 FROM phusion/baseimage:0.11
 LABEL MAINTAINER dpeterpaul
 
-#Dockerfile based on Dockerfiles of smdion
+#Dockerfile based on Dockerfiles of smdion and Capt.Insano
 
 # Set correct environment variables
 ENV HOME /root
@@ -23,7 +23,7 @@ ADD FAHClient-run.sh /root/FAHClient-run.sh
 # Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
-# Configure user nobody to match unRAID's settings
+# Configure user nobody
 RUN \
 usermod -u 99 nobody && \
 usermod -g 100 nobody && \
