@@ -1,2 +1,2 @@
 # docker-containers
-Docker Containers for UnRAID
+- Folding @ Home container for contributing to disease research, modified for security and customization (credit to Cpt.Insano).
