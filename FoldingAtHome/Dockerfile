@@ -1,5 +1,5 @@
-FROM phusion/baseimage:0.9.16
-MAINTAINER Capt.Insano
+FROM phusion/baseimage:0.11
+MAINTAINER daniel@peterpaul.io
 
 #Dockerfile based on Dockerfiles of smdion
 
@@ -23,7 +23,7 @@ ADD FAHClient-run.sh /root/FAHClient-run.sh
 # Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
-# Configure user nobody to match unRAID's settings
+# Configure user nobody
 RUN \
 usermod -u 99 nobody && \
 usermod -g 100 nobody && \
@@ -35,10 +35,10 @@ apt-get update -q && \
 apt-get install -qy wget && \
 apt-get clean -y && \
 rm -rf /var/lib/apt/lists/* && \
-wget --no-check-certificate -P /tmp/ https://fah.stanford.edu/file-releases/public/release/fahclient/debian-testing-64bit/v7.4/fahclient_7.4.4_amd64.deb && \
+wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/fahclient_7.5.1_amd64.deb && \
 mkdir -p /opt/fah && \
-dpkg -x /tmp/fahclient_7.4.4_amd64.deb /opt/fah  && \
-rm /tmp/fahclient_7.4.4_amd64.deb && \
+dpkg -x /tmp/fahclient_7.5.1_amd64.deb /opt/fah  && \
+rm /tmp/fahclient_7.5.1_amd64.deb && \
 chown -R nobody:users /opt/fah && \
 apt-get purge --remove wget -y && \
 apt-get autoremove -y && \
