@@ -29,8 +29,6 @@ usermod -u 99 nobody && \
 usermod -g 100 nobody && \
 usermod -d /home nobody && \
 chown -R nobody:users /home && \
-
-#Install FAHClient
 apt-get update -q && \
 apt-get install -qy wget && \
 apt-get clean -y && \
@@ -42,8 +40,6 @@ rm /tmp/fahclient_7.5.1_amd64.deb && \
 chown -R nobody:users /opt/fah && \
 apt-get purge --remove wget -y && \
 apt-get autoremove -y && \
-
-# fix up start files and make executable
 chmod +x /etc/my_init.d/firstrun.sh && \
 mkdir -p /etc/service/fahclient && \
 mv /root/FAHClient-run.sh /etc/service/fahclient/run && \
