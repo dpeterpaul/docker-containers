@@ -1,31 +1,37 @@
 <config>
-  <!-- Client Control -->
+
+  <!-- See sample config: /usr/share/doc/fahclient/sample-config.xml -->
+
+  <!-- Client Control 
+       Don't fold anonymously, provide user info. -->
   <fold-anon v='true'/>
 
   <!-- Folding Slot Configuration -->
-  <gpu v='false'/>
+  <gpu v='false'/>  <!-- If true, attempt to autoconfigure GPUs -->
 
-  <!-- HTTP Server -->
-  #Following allows access from local network
-  <allow v='192.168.0.1/24'/>
+  <!-- Slot Control
+       Options: light, medium or full
+       Watch out for high load -->
+  <power v='medium'/>
 
-  <!-- Remote Command Server -->
-  #Change password for remote access
-  <password v='PASSWORD'/>
+  <!-- User Information
+       Send all those points to team NairobiLUG 229502
+       http://fah-web2.stanford.edu/cgi-bin/main.py?qtype=teampage&teamnum=229502 -->
+  <user v='Daniel_Peterpaul'/>
+  <passkey v='ZZZZZZZZZZZZZZZZZZZZZZ'/>
+  <team v='241561'/>
 
-  <!-- User Information -->
-  #Change Team Number and Username if desired. Currently folding for UnRAID team!
-  <team v='241561'/> <!-- Your team number (Team UnRAID is # 227802)-->
-  <user v='Daniel_Peterpaul'/> <!-- Enter your user name here -->
-  <passkey v=''/> <!-- 32 hexadecimal characters if provided (Get one here: http://fah-web.stanford.edu/cgi-bin/getpasskey.py)-->
-
-  <!-- Web Server -->
-  #Following allows access from local network
-  <web-allow v='192.168.0.1/24'/>
-
-  <!-- CPU Use -->
-  <power v='medium'/> 
-  
   <!-- Folding Slots -->
+  <!-- Use all the CPUs
+       Watch out for high load -->
   <slot id='0' type='CPU'/>
+  <slot id='1' type='GPU'/>
+
+  <!-- Grant Remote Web Access
+       access web UI at 192.168.1.63:7396 -->
+  <allow>127.0.0.1 192.168.0.0/24</allow>
+  <web-allow>127.0.0.1 192.168..0.0/24</web-allow>
+
 </config>
+
+<!-- vim: set sw=2 ts=2: -->
