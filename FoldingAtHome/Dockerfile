@@ -32,6 +32,8 @@ chown -R nobody:users /home && \
 apt-get update -q && \
 apt-get install -qy wget && \
 apt-get clean -y && \
+apt-get install -y ocl-icd-opencl-dev && \
+apt-get install -y nvidia-opencl-dev && \
 rm -rf /var/lib/apt/lists/* && \
 wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/fahclient_7.5.1_amd64.deb && \
 mkdir -p /opt/fah && \

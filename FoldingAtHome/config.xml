@@ -7,7 +7,7 @@
   <fold-anon v='true'/>
 
   <!-- Folding Slot Configuration -->
-  <gpu v='false'/>  <!-- If true, attempt to autoconfigure GPUs -->
+  <gpu v='true'/>  <!-- If true, attempt to autoconfigure GPUs -->
 
   <!-- Slot Control
        Options: light, medium or full
@@ -30,7 +30,7 @@
   <!-- Grant Remote Web Access
        access web UI at 192.168.1.63:7396 -->
   <allow>127.0.0.1 192.168.0.0/24</allow>
-  <web-allow>127.0.0.1 192.168..0.0/24</web-allow>
+  <web-allow>127.0.0.1 192.168.0.0/24</web-allow>
 
 </config>
 
