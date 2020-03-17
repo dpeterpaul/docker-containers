@@ -7,6 +7,7 @@
   <fold-anon v='true'/>
 
   <!-- Folding Slot Configuration -->
+  <cpu v='true'/>
   <gpu v='true'/>  <!-- If true, attempt to autoconfigure GPUs -->
 
   <!-- Slot Control
