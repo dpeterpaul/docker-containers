@@ -29,8 +29,8 @@
 
   <!-- Grant Remote Web Access
        access web UI at 192.168.1.63:7396 -->
-  <allow>127.0.0.1 192.168.0.0/24</allow>
-  <web-allow>127.0.0.1 192.168.0.0/24</web-allow>
+  <allow>127.0.0.1 192.168.0.0/16</allow>
+  <web-allow>127.0.0.1 192.168.0.0/16</web-allow>
 
 </config>
 
