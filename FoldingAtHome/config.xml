@@ -13,7 +13,7 @@
   <!-- Slot Control
        Options: light, medium or full
        Watch out for high load -->
-  <power v='medium'/>
+  <power v='full'/>
 
   <!-- User Information
        Send all those points to team NairobiLUG 229502
