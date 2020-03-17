@@ -26,7 +26,6 @@
   <!-- Use all the CPUs
        Watch out for high load -->
   <slot id='0' type='CPU'/>
-  <slot id='1' type='GPU'/>
 
   <!-- Grant Remote Web Access
        access web UI at 192.168.1.63:7396 -->
