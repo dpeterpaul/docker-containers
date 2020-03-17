@@ -31,8 +31,6 @@ usermod -d /home nobody && \
 chown -R nobody:users /home && \
 apt-get update -q && \
 apt-get install -qy wget && \
-apt-get install -y ocl-icd-opencl-dev && \
-apt-get install -y nvidia-opencl-dev && \
 apt-get clean -y && \
 rm -rf /var/lib/apt/lists/* && \
 wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb && \
