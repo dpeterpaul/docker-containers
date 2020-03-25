@@ -1,52 +1,59 @@
-FROM phusion/baseimage:0.11
-LABEL MAINTAINER dpeterpaul
+FROM ubuntu:18.04 as base
+ENV DEBIAN_FRONTEND=noninteractive \
+    TINI_VERSION=v0.18.0
 
-#Dockerfile based on Dockerfiles of smdion and Capt.Insano
+ARG VERSION=7.5.1
+ARG VERSION_MAJOR=7.5
 
-# Set correct environment variables
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-ENV LC_ALL C.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV TERM xterm
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
 
-#Create Config File
-ADD config.xml /root/config.xml
+# hadolint ignore=DL3008
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+      curl \
+      gnupg \
+      bzip2 \
+      ca-certificates \
+    && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${VERSION_MAJOR}/fahclient_${VERSION}_amd64.deb \
+    && dpkg --force-depends --install /tmp/fah.deb \
+    && gpg --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys "595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7" || \
+      gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7" || \
+      gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7" || \
+      gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7" ; \
+      gpg --batch --verify /tini.asc /tini \
+    && chmod +x /tini  
 
-#Add firstrun.sh to create config.xml if needed
-ADD firstrun.sh /etc/my_init.d/firstrun.sh
+FROM nvidia/opencl:runtime-ubuntu18.04
 
-#Add FAHClient-run.sh to temp location
-ADD FAHClient-run.sh /root/FAHClient-run.sh
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
 
-# Use baseimage-docker's init system
-CMD ["/sbin/my_init"]
+#Add needed nvidia environment variables for https://github.com/NVIDIA/nvidia-docker
+ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,graphics,utility"
+ENV NVIDIA_VISIBLE_DEVICES="all"
 
-# Configure user nobody
-RUN \
-usermod -u 99 nobody && \
-usermod -g 100 nobody && \
-usermod -d /home nobody && \
-chown -R nobody:users /home && \
-apt-get update -q && \
-apt-get install -qy wget && \
-apt-get clean -y && \
-rm -rf /var/lib/apt/lists/* && \
-wget --no-check-certificate -P /tmp/ https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb && \
-mkdir -p /opt/fah && \
-dpkg -x /tmp/latest.deb /opt/fah  && \
-rm /tmp/latest.deb && \
-chown -R nobody:users /opt/fah && \
-apt-get purge --remove wget -y && \
-apt-get autoremove -y && \
-chmod +x /etc/my_init.d/firstrun.sh && \
-mkdir -p /etc/service/fahclient && \
-mv /root/FAHClient-run.sh /etc/service/fahclient/run && \
-chmod +x /etc/service/fahclient/run
+COPY --from=base /tini /bin/tini
+COPY --from=base /usr/bin/FAH* /usr/bin/
 
-#Expose Ports
+WORKDIR /app
+
+# hadolint ignore=DL3008
+RUN mkdir -p /usr/share/doc/fahclient/ \
+    && touch /usr/share/doc/fahclient/sample-config.xml \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y \
+      ocl-icd-opencl-dev \
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/ /var/lib/dpkg/ /var/lib/cache/ /var/lib/log/ \
+    && groupadd -r fah \
+    && useradd -r -g fah fah \
+    && chown -R fah /app
+
 EXPOSE 36330 7396
+USER fah
 
-#Expose Config Folder
-VOLUME ["/config"]
+ENTRYPOINT ["/bin/tini", "--", "/usr/bin/FAHClient", "--web-allow=127.0.0.1:7396", "--allow=127.0.0.1:7396", "--smp=true"]
+CMD ["--user=Anonymous", "--team=241561", "--power=full", "--gpu-usage=100", "--cpu-usage=100"]
