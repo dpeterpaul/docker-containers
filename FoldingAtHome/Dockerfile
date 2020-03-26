@@ -15,7 +15,7 @@ ENV CUDA_VERSION 10.2.89
 ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-libraries-$CUDA_PKG_VERSION \
+    cuda-libraries-$CUDA_PKG_VERSION && \
     rm -rf /var/lib/apt/lists/*
 
 
