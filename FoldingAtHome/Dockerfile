@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
 ENV FAH_VERSION_MAJOR=7.5
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN groupadd -g 9999 folder && \
@@ -13,6 +12,8 @@ ARG IMAGE_NAME
 FROM ${IMAGE_NAME}:10.2-base-ubuntu18.04
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
+ENV CUDA_VERSION 10.2.89
+ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 ENV NCCL_VERSION 2.5.6
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
