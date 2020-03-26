@@ -33,7 +33,6 @@ RUN apt-get update \
       ubuntu-keyring \
     && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/ubuntu-10.10-64bit/v7.1/latest.deb \
     && dpkg --force-depends --install /tmp/fah.deb \
-    && update-rc.d FAHClient defaults \
     && chmod +x /tini
     
 RUN apt-get install --no-install-recommends -y \
