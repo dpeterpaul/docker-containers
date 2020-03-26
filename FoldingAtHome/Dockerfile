@@ -33,7 +33,7 @@ RUN apt-get update \
       curl \
       bzip2 \
       ca-certificates \
-      debian-keyring \
+      ubuntu-keyring \
     && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${VERSION_MAJOR}/fahclient_${VERSION}_amd64.deb \
     && dpkg --force-depends --install /tmp/fah.deb \
     && chmod +x /tini
