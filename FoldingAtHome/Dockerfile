@@ -1,8 +1,7 @@
 FROM phusion/baseimage:latest
 
 ENV FAH_VERSION_MAJOR=7.5
-ENV CUDA_VERSION 10.2.89
-ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION 10-2=10.2.89-1
 ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV NVIDIA_VISIBLE_DEVICES all
