@@ -7,7 +7,7 @@ ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 FROM nvidia/cuda:10.2-base-ubuntu18.04
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install --no-install-recommends -y \
     cuda-libraries-$CUDA_PKG_VERSION &&\
     rm -rf /var/lib/apt/lists/*
 
