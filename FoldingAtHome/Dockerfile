@@ -7,17 +7,14 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 RUN apt-get update &&\ 
-    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-    curl -o /tmp/cuda.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-libraries-dev-10-2_10.2.89-1_amd64.deb &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     apt-get install --no-install-recommends -y \
-    curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev &&\
+    curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev nvidia-cuda-dev &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
     dpkg --install /tmp/fah.deb &&\
-    dpkg --install --force-depends /tmp/cuda.deb &&\
     ldconfig -n /usr/local/cuda/lib64/stub &&\
-    ln -s cuda-10.2 /usr/local/cuda &&\    
+    apt-get auto-remove -y curl &&\
     rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
 
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf &&\
