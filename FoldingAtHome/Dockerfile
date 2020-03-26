@@ -14,7 +14,7 @@ RUN apt-get update &&\
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
     apt-get install --no-install-recommends -y \
-    curl adduser libc6 bzip2 ca-certificates cuda-libraries-10-2-10.2.89-1 &&\
+    curl adduser libc6 bzip2 ca-certificates cuda-libraries-$CUDA_PKG_VERSION &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
     dpkg --install /tmp/fah.deb &&\
