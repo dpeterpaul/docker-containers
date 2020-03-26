@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM phusion/baseimage:latest
 
 ENV FAH_VERSION_MAJOR=7.5
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,7 +14,7 @@ FROM nvidia/cuda:10.2-base-ubuntu18.04
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-libraries-$CUDA_PKG_VERSION && \
+    cuda-libraries-$CUDA_PKG_VERSION &&\
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
