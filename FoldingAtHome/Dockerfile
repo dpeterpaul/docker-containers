@@ -1,4 +1,4 @@
-FROM nvidia/opencl:latest
+FROM nvidia/cudagl:latest
 
 ENV FAH_VERSION_MAJOR=7.5
 
