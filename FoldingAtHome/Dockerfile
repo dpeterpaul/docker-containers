@@ -18,22 +18,22 @@ ENV NCCL_VERSION 2.5.6
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION \
-cuda-nvtx-$CUDA_PKG_VERSION \
-libcublas10=10.2.2.89-1 \
-libnccl2=$NCCL_VERSION-1+cuda10.2 && \
+    cuda-nvtx-$CUDA_PKG_VERSION \
+    libcublas10=10.2.2.89-1 \
+    libnccl2=$NCCL_VERSION-1+cuda10.2 && \
     apt-mark hold libnccl2 && \
     rm -rf /var/lib/apt/lists/*
 
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        curl adduser bzip2 ca-certificates &&\
-        curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
-        mkdir -p /etc/fahclient/ &&\
-        touch /etc/fahclient/config.xml &&\
-        dpkg --install /tmp/fah.deb &&\
-        apt-get remove -y curl &&\
-        apt-get autoremove -y &&\
-        rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
+    curl adduser bzip2 ca-certificates &&\
+    curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
+    mkdir -p /etc/fahclient/ &&\
+    touch /etc/fahclient/config.xml &&\
+    dpkg --install /tmp/fah.deb &&\
+    apt-get remove -y curl &&\
+    apt-get autoremove -y &&\
+    rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
 
 # Web viewer
 EXPOSE 7396
