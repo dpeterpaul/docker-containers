@@ -17,8 +17,11 @@ ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
 
-COPY --from=base /tini /bin/tini
-COPY --from=base /usr/bin/FAH* /usr/bin/
+FROM nvidia/opencl:runtime-ubuntu18.04
+
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
 
 WORKDIR /app
 
@@ -72,7 +75,7 @@ ln -s cuda-10.2 /usr/local/cuda && \
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
-EXPOSE 36330 7396
+EXPOSE 36330 73963
 USER fah
 
 ENTRYPOINT ["/bin/tini", "--", "/usr/bin/FAHClient", "--web-allow=0/0:7396", "--allow=0/0:7396", "--smp=true"]
