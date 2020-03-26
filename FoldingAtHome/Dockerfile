@@ -42,7 +42,6 @@ RUN apt-get install --no-install-recommends -y \
     && apt-get purge --autoremove -y curl \
     && rm -rf /var/lib/apt/lists/*
 
-
 RUN mkdir -p /usr/share/doc/fahclient/ \
     && touch /usr/share/doc/fahclient/sample-config.xml \
     && apt-get update \
@@ -59,9 +58,9 @@ RUN mkdir -p /usr/share/doc/fahclient/ \
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-cudart-$CUDA_PKG_VERSION \
         cuda-libraries-dev-$CUDA_PKG_VERSION \
-cuda-compat-10-2 && \
-ln -s cuda-10.2 /usr/local/cuda && \
-    rm -rf /var/lib/apt/lists/*
+        cuda-compat-10-2 && \
+        ln -s cuda-10.2 /usr/local/cuda && \
+        rm -rf /var/lib/apt/lists/*
 
 # Required for nvidia-docker v1
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
