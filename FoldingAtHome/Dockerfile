@@ -22,7 +22,7 @@ RUN apt-get update &&\
     ln -s cuda-10.2 /usr/local/cuda &&\    
     rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
 
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf &&\
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 # Web viewer
