@@ -8,7 +8,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 RUN apt-get update &&\ 
     curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-    curl -o /tmp/cuda.deb http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb &&\
+    curl -o /tmp/cuda.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-libraries-dev-10-2_10.2.89-1_amd64.deb &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     apt-get install --no-install-recommends -y \
     curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev &&\
