@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    curl adduser ldconfig bzip2 ca-certificates &&\
+    curl adduser libc6 bzip2 ca-certificates &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
