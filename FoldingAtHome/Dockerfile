@@ -1,4 +1,4 @@
-FROM nvidia/cuda:latest
+FROM nvidia/driver:latest
 
 ENV FAH_VERSION_MAJOR=7.5
 
