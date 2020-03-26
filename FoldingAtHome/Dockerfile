@@ -38,6 +38,8 @@ RUN apt-get update \
     && dpkg --force-depends --install /tmp/fah.deb \
     && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "0429ACCAF7AA50B3" \
     && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "68980A0EA10B4DE8" \
+    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "04EE7237B7D453EC" \
+    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "648ACFD622F3D138" \        
     && gpg --batch --verify /tini.asc /tini \
     && chmod +x /tini  \
     && curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - \
