@@ -29,9 +29,5 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 # Web viewer
 EXPOSE 7396
 
-USER folder
-
-WORKDIR /home/folder
-
 ENTRYPOINT ["FAHClient", "--web-allow=0/0:7396", "--allow=0/0:7396"]
 CMD ["--user=Anonymous", "--team=241561", "--gpu=true", "--smp=true", "--power=full", "--gpu-usage=100", "--cpu-usage=100"]
