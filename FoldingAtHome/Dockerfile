@@ -1,73 +1,30 @@
-FROM ubuntu:18.04 as base
-ENV DEBIAN_FRONTEND=noninteractive \
-    TINI_VERSION=v0.18.0
+FROM nvidia/opencl:latest
 
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
+ENV FAH_VERSION_MAJOR=7.5
 
-#Add needed nvidia environment variables for https://github.com/NVIDIA/nvidia-docker
-ENV NVIDIA_DRIVER_CAPABILITIES compute,video,graphics,utility
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV CUDA_VERSION 10.2.89
-ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
+ENV DEBIAN_FRONTEND=noninteractive
 
-FROM nvidia/opencl:runtime-ubuntu18.04
+RUN groupadd -g 9999 folder && \
+    useradd -r -b /home -u 9999 -g folder folder
 
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
+RUN mkdir /home/folder && chown folder:folder /home/folder && chmod 700 /home/folder
 
-WORKDIR /app
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        curl adduser bzip2 ca-certificates &&\
+        curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
+        mkdir -p /etc/fahclient/ &&\
+        touch /etc/fahclient/config.xml &&\
+        dpkg --install /tmp/fah.deb &&\
+        apt-get remove -y curl &&\
+        apt-get autoremove -y &&\
+        rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
 
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
+# Web viewer
+EXPOSE 7396
 
-# hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-      curl \
-      bzip2 \
-      ca-certificates \
-      ubuntu-keyring \
-    && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/ubuntu-10.10-64bit/v7.1/latest.deb \
-    && dpkg --force-depends --install /tmp/fah.deb \
-    && chmod +x /tini
-    
-RUN apt-get install --no-install-recommends -y \
-    && curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - \
-    && echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list \
-    && echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list \
-    && apt-get purge --autoremove -y curl \
-    && rm -rf /var/lib/apt/lists/*
+USER folder
 
-RUN mkdir -p /usr/share/doc/fahclient/ \
-    && touch /usr/share/doc/fahclient/sample-config.xml \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y \
-      ocl-icd-opencl-dev \
-    && apt-get clean autoclean \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/ /var/lib/dpkg/ /var/lib/cache/ /var/lib/log/ \
-    && groupadd -r fah \
-    && useradd -r -g fah fah \
-    && chown -R fah /app
+WORKDIR /home/folder
 
-# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        cuda-cudart-$CUDA_PKG_VERSION \
-        cuda-libraries-dev-$CUDA_PKG_VERSION \
-        cuda-compat-10-2 && \
-        ln -s cuda-10.2 /usr/local/cuda && \
-        rm -rf /var/lib/apt/lists/*
-
-# Required for nvidia-docker v1
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-
-EXPOSE 36330 73963
-USER fah
-
-ENTRYPOINT ["/bin/tini", "--", "/usr/bin/FAHClient", "--web-allow=0/0:7396", "--allow=0/0:7396", "--smp=true"]
-CMD ["--user=Anonymous", "--team=241561", "--power=full", "--gpu-usage=100", "--cpu-usage=100"]
+ENTRYPOINT ["FAHClient", "--web-allow=0/0:7396", "--allow=0/0:7396"]
+CMD ["--user=Anonymous", "--team=241561", "--gpu=true", "--smp=true", "--power=full", "--gpu-usage=100", "--cpu-usage=100"]
