@@ -15,7 +15,7 @@ RUN apt-get update &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
     dpkg --install /tmp/fah.deb &&\
-    dpkg --install /tmp/cuda.deb --force-depends &&\
+    dpkg --install --force-depends /tmp/cuda.deb &&\
     apt-get autoclean &&\
     apt-get purge --autoremove remove -y curl &&\
     ldconfig -n /usr/local/cuda/lib64/stub &&\
