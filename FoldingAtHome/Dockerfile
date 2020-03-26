@@ -38,6 +38,7 @@ RUN apt-get update \
     && dpkg --force-depends --install /tmp/fah.deb \
     && gpg --keyserver keyserver.ubuntu.com --recv-keys 68980A0EA10B4DE8 \
     && gpg --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC \
+    && gpg --keyserver keyserver.ubuntu.com --recv-keys 7638D0442B90D010 \
     && gpg --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 \        
     && gpg --batch --verify /tini.asc /tini \
     && chmod +x /tini
