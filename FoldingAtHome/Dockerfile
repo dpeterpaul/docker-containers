@@ -25,7 +25,7 @@ ARG VERSION
 
 WORKDIR /app
 
-RUN echo "deb http://ftp.debian.org/debian testing main" >> /etc/apt/sources.list
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
 
 # hadolint ignore=DL3008
 RUN apt-get update \
