@@ -9,16 +9,13 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 RUN apt-get update &&\ 
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     apt-get install --no-install-recommends -y \
-    curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev nvidia-cuda-dev &&\
+    curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev libnvidia-compute-435 &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
     dpkg --install /tmp/fah.deb &&\
     ldconfig -n /usr/local/cuda/lib64/stub &&\
     apt-get auto-remove -y curl &&\
     rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
-
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf &&\
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 # Web viewer
 EXPOSE 7396
