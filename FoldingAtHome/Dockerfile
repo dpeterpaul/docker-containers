@@ -1,4 +1,4 @@
-FROM nvidia/cudagl:latest
+FROM ubuntu:latest
 
 ENV FAH_VERSION_MAJOR=7.5
 
@@ -8,6 +8,21 @@ RUN groupadd -g 9999 folder && \
     useradd -r -b /home -u 9999 -g folder folder
 
 RUN mkdir /home/folder && chown folder:folder /home/folder && chmod 700 /home/folder
+
+ARG IMAGE_NAME
+FROM ${IMAGE_NAME}:10.2-base-ubuntu18.04
+LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
+
+ENV NCCL_VERSION 2.5.6
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-libraries-$CUDA_PKG_VERSION \
+cuda-nvtx-$CUDA_PKG_VERSION \
+libcublas10=10.2.2.89-1 \
+libnccl2=$NCCL_VERSION-1+cuda10.2 && \
+    apt-mark hold libnccl2 && \
+    rm -rf /var/lib/apt/lists/*
+
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         curl adduser bzip2 ca-certificates &&\
