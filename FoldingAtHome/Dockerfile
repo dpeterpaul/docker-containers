@@ -4,11 +4,6 @@ ENV FAH_VERSION_MAJOR=7.5
 ENV CUDA_VERSION 10.2.89
 ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 
-RUN groupadd -g 9999 folder && \
-    useradd -r -b /home -u 9999 -g folder folder
-
-RUN mkdir /home/folder && chown folder:folder /home/folder && chmod 700 /home/folder
-
 FROM nvidia/cuda:10.2-base-ubuntu18.04
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
