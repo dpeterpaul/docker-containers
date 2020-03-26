@@ -36,10 +36,9 @@ RUN apt-get update \
       ca-certificates \
     && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${VERSION_MAJOR}/fahclient_${VERSION}_amd64.deb \
     && dpkg --force-depends --install /tmp/fah.deb \
-    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "0429ACCAF7AA50B3" \
-    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "68980A0EA10B4DE8" \
-    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "04EE7237B7D453EC" \
-    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "648ACFD622F3D138" \        
+    && gpg --keyserver keyserver.ubuntu.com --recv-keys 68980A0EA10B4DE8 \
+    && gpg --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC \
+    && gpg --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 \        
     && gpg --batch --verify /tini.asc /tini \
     && chmod +x /tini  \
     && curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - \
@@ -53,9 +52,7 @@ RUN mkdir -p /usr/share/doc/fahclient/ \
     && touch /usr/share/doc/fahclient/sample-config.xml \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
-      libcudnn7=$CUDNN_VERSION-1+cuda10.2 \
       ocl-icd-opencl-dev \
-    && apt-mark hold libcudnn7 \
     && apt-get clean autoclean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/ /var/lib/dpkg/ /var/lib/cache/ /var/lib/log/ \
@@ -66,6 +63,7 @@ RUN mkdir -p /usr/share/doc/fahclient/ \
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-cudart-$CUDA_PKG_VERSION \
+        cuda-libraries-dev-$CUDA_PKG_VERSION \
 cuda-compat-10-2 && \
 ln -s cuda-10.2 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
