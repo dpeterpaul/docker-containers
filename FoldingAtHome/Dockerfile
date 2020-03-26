@@ -11,7 +11,7 @@ RUN apt-get update &&\
     curl -o /tmp/cuda.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-runtime-10-2_10.2.89-1_amd64.deb &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     apt-get install --no-install-recommends -y \
-    curl adduser libc6 bzip2 ca-certificates &&\
+    curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
     dpkg --install /tmp/fah.deb &&\
