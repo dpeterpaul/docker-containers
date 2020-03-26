@@ -31,16 +31,11 @@ RUN echo "deb http://ftp.debian.org/debian testing main" >> /etc/apt/sources.lis
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
       curl \
-      gnupg \
       bzip2 \
       ca-certificates \
+      debian-keyring \
     && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${VERSION_MAJOR}/fahclient_${VERSION}_amd64.deb \
     && dpkg --force-depends --install /tmp/fah.deb \
-    && gpg --keyserver keyserver.ubuntu.com --recv-keys 68980A0EA10B4DE8 \
-    && gpg --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC \
-    && gpg --keyserver keyserver.ubuntu.com --recv-keys 7638D0442B90D010 \
-    && gpg --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 \        
-    && gpg --batch --verify /tini.asc /tini \
     && chmod +x /tini
     
 RUN apt-get install --no-install-recommends -y \
