@@ -2,9 +2,6 @@ FROM ubuntu:18.04 as base
 ENV DEBIAN_FRONTEND=noninteractive \
     TINI_VERSION=v0.18.0
 
-ARG VERSION=7.5.1
-ARG VERSION_MAJOR=7.5
-
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
 
@@ -34,7 +31,7 @@ RUN apt-get update \
       bzip2 \
       ca-certificates \
       ubuntu-keyring \
-    && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${VERSION_MAJOR}/fahclient_${VERSION}_amd64.deb \
+    && curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/ubuntu-10.10-64bit/v7.1/latest.deb \
     && dpkg --force-depends --install /tmp/fah.deb \
     && update-rc.d FAHClient defaults \
     && chmod +x /tini
