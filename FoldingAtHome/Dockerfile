@@ -1,18 +1,9 @@
 FROM phusion/baseimage:latest
 
 ENV FAH_VERSION_MAJOR=7.5
-ENV CUDA_VERSION 10.2.89
-ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
-
-FROM nvidia/cuda:10.2-base-ubuntu18.04
-LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    cuda-libraries-$CUDA_PKG_VERSION &&\
-    rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    curl adduser bzip2 ca-certificates &&\
+    curl adduser bzip2 ca-certificates gcc-offload-nvptx &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     mkdir -p /etc/fahclient/ &&\
     touch /etc/fahclient/config.xml &&\
