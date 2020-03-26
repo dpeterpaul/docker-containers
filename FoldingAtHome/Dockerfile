@@ -2,6 +2,8 @@ FROM ubuntu:latest
 
 ENV FAH_VERSION_MAJOR=7.5
 ENV DEBIAN_FRONTEND=noninteractive
+ENV CUDA_VERSION 10.2.89
+ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 
 RUN groupadd -g 9999 folder && \
     useradd -r -b /home -u 9999 -g folder folder
@@ -11,13 +13,9 @@ RUN mkdir /home/folder && chown folder:folder /home/folder && chmod 700 /home/fo
 FROM nvidia/cuda:10.2-base-ubuntu18.04
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
-ENV CUDA_VERSION 10.2.89
-ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-libraries-$CUDA_PKG_VERSION && \
     rm -rf /var/lib/apt/lists/*
-
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     curl adduser bzip2 ca-certificates &&\
