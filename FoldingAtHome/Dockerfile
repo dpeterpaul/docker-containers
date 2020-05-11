@@ -7,7 +7,7 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 RUN apt-get update &&\ 
-    curl -o /tmp/cuda.deb http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-435/libnvidia-compute-435_435.21-0ubuntu7_amd64.deb &&\
+    curl -o /tmp/cuda.deb https://ftp.heanet.ie/mirrors/ubuntu/pool/restricted/n/nvidia-graphics-drivers-435/libnvidia-compute-435_435.21-0ubuntu7_amd64.deb &&\
     curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v7.5/latest.deb &&\
     apt-get install --no-install-recommends -y \
     curl adduser libc6 bzip2 ca-certificates ocl-icd-opencl-dev &&\
